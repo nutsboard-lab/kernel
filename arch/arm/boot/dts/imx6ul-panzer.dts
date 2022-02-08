@@ -177,11 +177,32 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lcdif_dat
 		     &pinctrl_lcdif_ctrl>;
+
+	display = <&display0>;
 	status = "okay";
 
-	port {
-		display_out: endpoint {
-			remote-endpoint = <&panel_in>;
+	display0: display {
+		bits-per-pixel = <32>;
+		bus-width = <24>;
+
+		display-timings {
+			native-mode = <&timing0>;
+			timing0: timing0 {
+				clock-frequency = <74929000>;
+				hactive = <1024>;
+				vactive = <768>;
+				hback-porch = <144>;
+				hfront-porch = <24>;
+				vback-porch = <29>;
+				vfront-porch = <3>;
+				hsync-len = <136>;
+				vsync-len = <6>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				de-active = <1>;
+				pixelclk-active = <0>;
+				interlaced =  <0>;
+			};
 		};
 	};
 };
@@ -202,15 +223,6 @@
 };
 
 &snvs_pwrkey {
-	status = "okay";
-};
-
-&tsc {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_tsc>;
-	xnur-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;
-	measure-delay-time = <0xffff>;
-	pre-charge-time = <0xfff>;
 	status = "okay";
 };
 
@@ -341,21 +353,6 @@
 		>;
 	};
 
-	pinctrl_i2c1: i2c1grp {
-		fsl,pins = <
-			MX6UL_PAD_UART4_TX_DATA__I2C1_SCL 0x4001b8b0
-			MX6UL_PAD_UART4_RX_DATA__I2C1_SDA 0x4001b8b0
-		>;
-	};
-
-	pinctrl_i2c2: i2c2grp {
-		fsl,pins = <
-			MX6UL_PAD_CSI_HSYNC__I2C2_SCL   0x4001b8b0
-                        MX6UL_PAD_CSI_VSYNC__I2C2_SDA   0x4001b8b0
-
-		>;
-	};
-
 	pinctrl_lcdif_dat: lcdifdatgrp {
 		fsl,pins = <
 			MX6UL_PAD_LCD_DATA00__LCDIF_DATA00  0x79
@@ -445,7 +442,15 @@
 		>;
 	};
 
-	pinctrl_tsc: tscgrp {
+	pinctrl_i2c2: i2c2grp {
+		fsl,pins = <
+			MX6UL_PAD_CSI_HSYNC__I2C2_SCL	0x4001b8b0
+			MX6UL_PAD_CSI_VSYNC__I2C2_SDA	0x4001b8b0
+		>;
+	};
+
+
+	pinctrl_gpio1: gpio1grp {
 		fsl,pins = <
 			MX6UL_PAD_GPIO1_IO01__GPIO1_IO01		0xb0
 			MX6UL_PAD_GPIO1_IO02__GPIO1_IO02		0xb0
